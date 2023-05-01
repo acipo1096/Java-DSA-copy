@@ -86,12 +86,74 @@ public class BST {
         Node nodeToDelete = currentNode;
 
         // if node is a leaf
+        if (nodeToDelete.leftChild == null && nodeToDelete.rightChild == null){
+            if (nodeToDelete == root){
+                root = null;
+            }
+            else if (isLeftChild){
+                parentNode.rightChild = null;
+            }
+        }
+        
+        // if node has one child that is on the left
+        else if(nodeToDelete.rightChild == null){
+            if(nodeToDelete == root){
+                root = nodeToDelete.leftChild;
+            } else if (isLeftChild){
+                parentNode.leftChild = nodeToDelete.leftChild;
+            } else {
+                parentNode.rightChild = nodeToDelete.leftChild;
+            }
+        }
 
-        // if node has one child
+        // if node has one child that is on the right
+        else if(nodeToDelete.leftChild == null){
+            if(nodeToDelete == root){
+                root = nodeToDelete.rightChild;
+            } else if (isLeftChild){
+                parentNode.leftChild = nodeToDelete.rightChild;
+            } else {
+                parentNode.leftChild = nodeToDelete.rightChild;
+            }
+        }
 
         // if node has two children (tricky)
+        else {
+            Node successor = getSuccessor(nodeToDelete);
+
+            // Once we find the successor, we must connect parent of nodeToDelete to successor instead
+            if(nodeToDelete == root){
+                root = successor;
+            } else if (isLeftChild) {
+                parentNode.leftChild = successor;
+            } else {
+                parentNode.rightChild = successor;
+            }
+
+            // this is where the swap happens
+            successor.leftChild = nodeToDelete.leftChild;
+        }
 
         return true;
+    }
+
+    private Node getSuccessor(Node nodeToDelete) {
+        Node successorParent = nodeToDelete;
+        Node successor = nodeToDelete;
+
+        Node current = nodeToDelete.rightChild; // go to the right child
+
+        while(current != null){ // start going left down the tree until node has no left child
+            successorParent = successor;
+            successor = current;
+            current = current.leftChild;
+        }
+        // if successor not a right child
+        if (successor != nodeToDelete.rightChild) {
+            successorParent.leftChild = successor.rightChild;
+            successor.rightChild = nodeToDelete.rightChild;
+        }
+        return successor;
     }
 
 
