@@ -1,4 +1,4 @@
-package heapimplementation;
+package ds.heapimplementation;
 
 public class Node {
     private int key;

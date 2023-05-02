@@ -1,4 +1,4 @@
-package heapimplementation;
+package ds.heapimplementation;
 
 public class Application {
     public static void main(String[] args) {
@@ -13,7 +13,7 @@ public class Application {
         newHeap.insert(43);
         newHeap.insert(7);
 
-        newHeap.displayHeap();
+        // newHeap.displayHeap();
 
     }
 }
